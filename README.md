@@ -39,7 +39,7 @@ Valex simulates an API that manages a benefit card, generally made available by 
 
 ## API Reference
 
-### Create user
+### Sign-Up
 
 ```http
 POST /user/register
@@ -55,46 +55,31 @@ POST /user/register
 
 #
 
-### Create a card
+### Sign-In User
 
 ```http
-POST /cards/create
+POST /user/login
 ```
 
 #### Request:
 
-| Body         | Type     | Description                              |
-| :------------| :------- | :--------------------------------------- |
-| `employeeId` | `integer`| **Required**. user Id                    |
-| `type`       | `string` | **Required**. type of card benefit       |
+| Body        | Type     | Description                      |
+| :-----------| :------- | :------------------------------- |
+| `email`     | `string` | **Required**. User email         |
+| `password`  | `string` | **Required**. User password      |
 
 `Valid types: [groceries, restaurant, transport, education, health]`
 
-####
-
-| Headers     | Type     | Description           |
-| :---------- | :------- | :-------------------- |
-| `x-api-key` | `string` | **Required**. api key |
-
-####
+#
 
 </br>
 
 #### Response:
 
-```json
-{
-	"number": "12345678",
-	"cardholderName": "NAME N NAME",
-	"securityCode": "111",
-	"expirationDate": "01/27",
-	"isVirtual": false,
-	"isBlocked": false,
-	"type": "card type",
-	"cvc": "111"
-}
 ```
-`number was defined as 8 randown numbers`
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY2MzQ3ODM4MH0.tGgIaowvK0Ha4S9cSTkkiWH3Zr-9P_GeUsnkE3_oTqw
+```
+`The token as string`
 
 #
 
