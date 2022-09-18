@@ -1,3 +1,5 @@
+import { Tests } from "@prisma/client";
+
 export interface IExam {
     name: string;
     pdfUrl: string;
@@ -6,3 +8,4 @@ export interface IExam {
     teacher: string;
 }
 
+export type TypeInsertExam = Omit<Tests, 'id'>;

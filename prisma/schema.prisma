@@ -32,6 +32,8 @@ model Tests {
   pdfUrl      String
   categories  Categories @relation(fields: [categoryId], references:[id])
   categoryId  Int
+  teacherDisciplineId Int
+
 
 
   @@map("tests")

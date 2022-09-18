@@ -1,5 +1,5 @@
 import { client } from "../config/database";
-import { Categories } from "@prisma/client";
+
 
 async function lookForCategorieByName (name: string) {
     return await client.categories.findFirst({
@@ -30,10 +30,19 @@ async function lookForTeachersDisciplines(idTeacher: number, idDisciplines: numb
         }
     })
 }
+async function createExam (examInfo) {
+    await client.user.create({
+        data: {
+            examInfo.name,
+            
+        }
+    })
+}
 
 export const examRepository = {
     lookForCategorieByName,
     lookForDisciplineByName,
     lookForTeacherByName,
-    lookForTeachersDisciplines
+    lookForTeachersDisciplines,
+    createExam
 }
