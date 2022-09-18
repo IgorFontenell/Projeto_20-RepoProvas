@@ -13,7 +13,7 @@ async function create (examInfo: IExam) {
 
     await validateSchemas(examSchema.createSchema, examInfo);
 
-    const categorieExist = await examRepository.lookForDisciplineByName(categorie);
+    const categorieExist = await examRepository.lookForCategorieByName(categorie);
     if(!categorieExist) {
         throw {type: "not_found", message: "Category do not exist!"}
     }
@@ -30,7 +30,7 @@ async function create (examInfo: IExam) {
 
     const teachersDisciplineExist = await examRepository.lookForTeachersDisciplines(teacherExist.id, disciplineExist.id);
     if(!teachersDisciplineExist) {
-        throw {type: "not_found", message: "This teacher don't lecture in this discipline!"}
+        throw {type: "not_found", message: "This teacher dosen't teach in this discipline!"}
     }
 
     const examStruture: TypeInsertExam = {
@@ -40,6 +40,8 @@ async function create (examInfo: IExam) {
         teacherDisciplineId: teachersDisciplineExist.id
     };
     await examRepository.createExam(examStruture);
+
+    return;
 
 
 }

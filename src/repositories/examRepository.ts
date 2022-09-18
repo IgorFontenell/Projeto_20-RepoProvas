@@ -1,4 +1,5 @@
 import { client } from "../config/database";
+import { TypeInsertExam } from '../types/examType';
 
 
 async function lookForCategorieByName (name: string) {
@@ -30,11 +31,13 @@ async function lookForTeachersDisciplines(idTeacher: number, idDisciplines: numb
         }
     })
 }
-async function createExam (examInfo) {
-    await client.user.create({
+async function createExam (examInfo: TypeInsertExam) {
+    await client.tests.create({
         data: {
-            examInfo.name,
-            
+            name: examInfo.name,
+            pdfUrl: examInfo.pdfUrl,
+            categoryId: examInfo.categoryId,
+            teacherDisciplineId: examInfo.teacherDisciplineId
         }
     })
 }

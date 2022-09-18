@@ -83,25 +83,29 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY2MzQ3ODM4MH0.tGg
 
 #
 
-### Activate a card
+### Create an exam file
 
 ```http
-POST /cards/activate
+POST /exams/add
 ```
 
 #### Request:
 
-| Body             | Type     | Description                        |
-| :--------------- | :------- | :--------------------------------- |
-| `number`         | `string`| **Required**. number of the card    |
-| `password`       | `string` | **Required**. card password        |
-| `securityCode`   | `string` | **Required**. card cvv             |
+| Headers         | Type     | Description           |
+| :----------     | :------- | :-------------------- |
+| `Authorization` | `string` | **Required**. Token   |
 
-`Password length: 4`
+####
 
-`Password pattern: only numbers`
+| Body             | Type     | Description                          |
+| :--------------- | :------- | :------------------------------------|
+| `name`           | `string` | **Required**. Title of the file      |
+| `pdfUrl`         | `string` | **Required**. Link of the pdf        |
+| `categorie`      | `string` | **Required**. Name of the categorie  |
+| `discipline`     | `string` | **Required**. Name of the discipline |
+| `teacher`        | `string` | **Required**. Name of the teacher    |
 
-`Secutiry code  length: 3`
+
 
 #
 
