@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express, { json } from "express";
 import "express-async-errors";
 import router from "./routers/index";
-import errorHandler from "./middlewares/errorHandler"
+import errorHandler from "./middlewares/errorHandlerMiddleware"
 
 
 dotenv.config();

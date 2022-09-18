@@ -1,9 +1,9 @@
 import { Router } from "express";
-import teste from "./teste";
+import userRouter from "./userRouter";
 
 
 const router = Router();
 
-router.use(teste);
+router.use(userRouter);
 
 export default router;

@@ -1,0 +1,16 @@
+import { NextFunction, Request, Response } from "express";
+
+export default function errorHandler (error: any, request: Request, response: Response, next: NextFunction) {
+
+  //if (error.type === "bad_request") return response.status(400).send(error.message);
+  //if (error.type === "unauthorized") return response.status(401).send(error.message);
+  //if (error.type === "forbidden") return response.status(403).send(error.message);
+  if (error.type === "not_found") return response.status(404).send(error.message);
+  //if (error.type === "not_acceptable") return response.status(406).send(error.message);
+  if (error.type === "unprocessable_entity") return response.status(422).send(error.message);
+
+  //if (error.type === "server_error") return response.status(500).send(error.message);
+  
+  response.status(500).send("Server error");
+   // internal server error
+}
