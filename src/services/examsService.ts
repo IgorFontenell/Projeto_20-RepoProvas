@@ -3,6 +3,7 @@ import { validateSchemas } from '../middlewares/validateSchemaMiddleware';
 import { examSchema } from '../schemas/examSchema';
 import { examRepository } from '../repositories/examRepository';
 import { TypeInsertExam } from '../types/examType';
+import { Terms } from '@prisma/client';
 
 async function create (examInfo: IExam) {
     const { name,
@@ -45,6 +46,43 @@ async function create (examInfo: IExam) {
 
 
 }
+
+async function getByDiscipline() {
+    const disciplineByTerms =  await examRepository.getDisciplineByTerms(); 
+    
+    const buildTestByDisciplines = disciplineByTerms.map((item) => {
+        return{
+            periodo: item.number,
+            disciplina: item.disciplines.map((disciplines) =>{
+                return{
+                    discipline: disciplines.name,
+                    categorias: disciplines.teachersDisciplines[0].tests.map((categories)=>{
+                        return{
+                            categoryName: categories.categories.name,
+                            
+                            testsInfos: categories.categories.tests.map((tests)=>{
+                                if(disciplines.id === tests.teacherDiscipline.disciplineId){
+
+                                    return{
+                                        name: tests.name,
+                                        teacherName: tests.teacherDiscipline.teachers.name
+                                    }
+                                 } 
+                            }).filter((testElement)=> testElement )
+                        }
+                    })
+                }
+            })
+        }
+    }) 
+    
+    
+    return buildTestByDisciplines
+
+}
+
+
 export const examsService = {
     create,
+    getByDiscipline
 }

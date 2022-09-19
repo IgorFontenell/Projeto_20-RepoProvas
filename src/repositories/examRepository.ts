@@ -1,4 +1,4 @@
-import { client } from "../config/database";
+import { client, connection } from "../config/database";
 import { TypeInsertExam } from '../types/examType';
 
 
@@ -42,10 +42,54 @@ async function createExam (examInfo: TypeInsertExam) {
     })
 }
 
+async function getDisciplineByTerms () {
+    return await client.terms.findMany({
+        select:{
+            number: true,
+            disciplines:{
+                select:{
+                    name: true,
+                    id: true,
+                    teachersDisciplines:{
+                        select:{
+                            tests:{ distinct: ['categoryId'],
+                                select:{
+                                    categories:{
+                                        select: {id: true, 
+                                                name: true,
+                                                tests: { 
+                                                    select: { 
+                                                        name: true,
+                                                        
+                                                        teacherDiscipline:{
+                                                            select:{
+                                                                teachers:{
+                                                                    select:{name:true} }, disciplineId: true
+                                                                }
+                                                        }
+                                                    }
+                                                }}
+                                    }
+                                },
+                                orderBy: [{categories: {name: "desc"}}],
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+}
+
+
+
+
+
 export const examRepository = {
     lookForCategorieByName,
     lookForDisciplineByName,
     lookForTeacherByName,
     lookForTeachersDisciplines,
-    createExam
+    createExam,
+    getDisciplineByTerms
 }

@@ -4,7 +4,7 @@ import { userSchema } from "../schemas/userSchema";
 import { IUser, TypeUserLogin} from '../types/userTypes';
 import { decrypt, encrypt } from "../utils/criptrUtils";
 import jwt from 'jsonwebtoken';
-import { User } from "@prisma/client";
+
 
 
 async function createUser (user: IUser) {

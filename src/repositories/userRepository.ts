@@ -1,9 +1,9 @@
 import { client } from "../config/database";
 import { IUser, TypeUserLogin } from '../types/userTypes';
-import { User } from "@prisma/client";
+
 
  async function createUser (userInfo: IUser, passwordEncrypted: string) {
-    await client.user.create({
+    await client.users.create({
         data: {
             email: userInfo.email,
             password: passwordEncrypted
@@ -13,7 +13,7 @@ import { User } from "@prisma/client";
 
  async function getUserByEmail (email: string) {
     
-    return await client.user.findFirst({
+    return await client.users.findFirst({
         where: {
             email: email,
         }
@@ -22,7 +22,7 @@ import { User } from "@prisma/client";
 
  async function findById (id: number) {
     
-    return client.user.findUnique({
+    return client.users.findUnique({
         where: { id }
       });
 }

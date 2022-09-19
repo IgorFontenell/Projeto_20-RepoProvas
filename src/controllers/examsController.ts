@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { examsService } from '../services/examsService';
 import { IExam } from '../types/examType';
+import { Terms } from "@prisma/client";
 
 export async function addExameController (request: Request, response: Response) {
     const examsInfo: IExam = request.body;
@@ -14,10 +15,10 @@ export async function addExameController (request: Request, response: Response) 
 
 export async function getExamsByDiscipline (request: Request, response: Response) {
     
-    
+    const exams = await examsService.getByDiscipline();
     
 
-    response.status(201).send("Exam created sucessfully!");
+    response.status(200).send(exams);
     
 
 }
