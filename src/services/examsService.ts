@@ -49,7 +49,7 @@ async function create (examInfo: IExam) {
 
 async function getByDiscipline() {
     const disciplineByTerms =  await examRepository.getDisciplineByTerms(); 
-    console.log("foi");
+    
     const buildTestByDisciplines = disciplineByTerms.map((item) => {
         return{
             periodo: item.number,
