@@ -14,7 +14,7 @@ import { IUser, TypeUserLogin } from '../types/userTypes';
 
  async function getUserByEmail (email: string) {
     
-    return await client.users.findFirst({
+    return await client.users.findUnique({
         where: {
             email: email,
         }
