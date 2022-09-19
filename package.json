@@ -6,7 +6,7 @@
   "scripts": {
     "test": "dotenv -e .env.test prisma migrate dev && prisma db seed && dotenv -e .env.test jest",
     "test1": "dotenv -e .env.test jest",
-    "start": "ts-node src/index.ts",
+    "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc"
   },

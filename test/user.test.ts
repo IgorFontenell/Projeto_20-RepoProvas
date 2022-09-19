@@ -1,6 +1,6 @@
 import supertest from 'supertest';
-import app from '../src/app';
 import { client } from '../src/config/database';
+import app from '../src/dist/app';
 import { createBodyUser, passwordIncorret } from './factories/userFactory';
 
 
