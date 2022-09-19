@@ -1,98 +1,96 @@
 import supertest from 'supertest';
 import app from '../src/app';
 import { client } from '../src/config/database';
-import dotenv from 'dotenv';
-import { testUser } from './userFactory/userTest';
-
-dotenv.config();
+import { createBodyUser, passwordIncorret } from './factories/userFactory';
 
 
 beforeEach(async () => {
-    await client.$executeRaw`TRUNCATE TABLE "Users"`;
+    await client.$executeRaw`TRUNCATE TABLE "Users";`
+  });
+  
+
+ describe("Test register User", () => {
+
+    it("Should return  status error 422 when trying to create a user without the proprier format", async () => {
+        const lackingPassword = {
+            email: "test@gmail.com"    
+        };
+        const incorrectPassword = passwordIncorret()
+
+        const resultLacking = await supertest(app).post("/user/register").send(lackingPassword);
+        const resultIncorrect = await supertest(app).post("/user/register").send(incorrectPassword);
+
+        expect(resultLacking.status).toEqual(422);
+        expect(resultIncorrect.status).toEqual(422);
+    });
+
+    it("Should return status 201 and create an user", async () => {
+       const body = await createBodyUser()
+
+       const result = await supertest(app).post("/user/register").send(body);
+        
+       const findUser = await client.users.findUnique({
+            where: { email: body.email }
+        });
+
+        expect(result.status).toEqual(201);
+        expect(findUser).not.toBeNull();
+    });
+
+    it("Should return status error 406 if email was already registered", async () => {
+        const body = await createBodyUser()
+
+        const firstTry = await supertest(app).post("/user/register").send(body);
+        expect(firstTry.status).toEqual(201);
+
+        const secondTry = await supertest(app).post("/user/register").send(body);
+        expect(secondTry.status).toEqual(406);
+    });
 });
 
-describe('Test user register', () => {
-    
-    
-    it('Should return  status error 422 when trying to create a user without the proprier format', async () => {
 
-        const userWrongConfirmPassword  = await supertest(app).post('/user/register').send({...testUser, confirmPassword: "test1"});
-        const userWithoutConfirmPassword  = await supertest(app).post('/user/register').send({...testUser});
-        const createdUser = await client.users.findUnique({
-            where: {email: testUser.email}
+/////////////////////////////////////////////////////////////////
+
+describe("Test Login User", () => {
+
+    it("Should return  status error 422 when trying to create a user without the proprier format", async () => {
+        const body = await createBodyUser()
+
+        const result = await supertest(app).post("/user/login").send({
+            email: body.email
         });
-
-        expect(userWrongConfirmPassword.status).toBe(422);
-        expect(userWithoutConfirmPassword.status).toBe(422);
-        expect(createdUser).toBeNull();
-
-    });
-    
-    it('Should create the user and return status 201', async () => {
-
-        const creatingUser  = await supertest(app).post('/user/register').send({...testUser, confirmPassword: "test"});
-        const createdUser = await client.users.findUnique({
-            where: {email: testUser.email}
-        });
-
-        expect(creatingUser.status).toBe(201);
-        expect(createdUser).not.toBeNull();
-
-    });
-
-    it('Should return status error 406 when user already exists', async () => {
-
-        const userAlreadyExist  = await supertest(app).post('/user/register').send({
-            email: testUser.email,
-            password: "test2",
-            confirmPassword: "test2"
-        });
-        const onlyOneUser = await client.users.findMany({
-            where: {email: testUser.email}
-        });
-        console.log(onlyOneUser);
-        expect(userAlreadyExist.status).toBe(406);
-        expect(onlyOneUser.length).toBe(1);
         
-
+        expect(result.status).toEqual(422);
     });
-   
+
+    it("Should login the user and return status 200", async () => {
+        const user = await createBodyUser()
+        
+        const createUser = await supertest(app).post("/user/register").send(user);
+
+        expect(createUser.status).toEqual(201);
+
+    
+        const result = await supertest(app).post("/user/login").send({
+            email: user.email,
+            password: user.password
+        });
+        
+        expect(result.status).toEqual(200);
+    });
+
+    it("Should return status error 404 when trying to login a user without the right credentials", async () => {
+        const body = await createBodyUser()
+
+        const result = await supertest(app).post("/user/login").send({
+            email: body.email,
+            password: body.password
+        });
+        expect(result.status).toEqual(404);
+    });
+
 });
-
- describe('Test user login', () => {
-    
-     it('Should return  status error 422 when trying to create a user without the proprier format', async () => {
-
-         const userWithoutPassword  = await supertest(app).post('/user/login').send({
-             email: testUser.email
-         });
-         expect(userWithoutPassword.status).toBe(422);
-
-     });
-
-     it('Should return status error 401 when trying to login a user without the right credentials', async () => {
-
-        const userWrongPassword  = await supertest(app).post('/user/login').send({
-            email: testUser.email, 
-            password: "test1"
-        });
-
-        expect(userWrongPassword.status).toBe(401);
-        
-
-    });
-     it('Should login the user and return status 200', async () => {
-
-         const loginUser  = await supertest(app).post('/user/login').send({...testUser});
-
-         
-         expect(loginUser.status).toBe(200);
-        
-
-     });
-   
- });
 
 afterAll(async () => {
     await client.$disconnect();
-  });
+});

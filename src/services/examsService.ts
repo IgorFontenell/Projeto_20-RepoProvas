@@ -3,7 +3,7 @@ import { validateSchemas } from '../middlewares/validateSchemaMiddleware';
 import { examSchema } from '../schemas/examSchema';
 import { examRepository } from '../repositories/examRepository';
 import { TypeInsertExam } from '../types/examType';
-import { Terms } from '@prisma/client';
+
 
 async function create (examInfo: IExam) {
     const { name,
@@ -15,22 +15,22 @@ async function create (examInfo: IExam) {
     await validateSchemas(examSchema.createSchema, examInfo);
 
     const categorieExist = await examRepository.lookForCategorieByName(categorie);
-    if(!categorieExist) {
+    if(categorieExist === null) {
         throw {type: "not_found", message: "Category do not exist!"}
     }
 
     const disciplineExist = await examRepository.lookForDisciplineByName(discipline);
-    if(!disciplineExist) {
+    if(disciplineExist === null) {
         throw {type: "not_found", message: "Discipline do not exist!"}
     }
 
     const teacherExist = await examRepository.lookForTeacherByName(teacher);
-    if(!teacherExist) {
+    if(teacherExist === null) {
         throw {type: "not_found", message: "Teacher do not exist!"}
     }
 
     const teachersDisciplineExist = await examRepository.lookForTeachersDisciplines(teacherExist.id, disciplineExist.id);
-    if(!teachersDisciplineExist) {
+    if(teachersDisciplineExist === null) {
         throw {type: "not_found", message: "This teacher dosen't teach in this discipline!"}
     }
 
@@ -49,7 +49,7 @@ async function create (examInfo: IExam) {
 
 async function getByDiscipline() {
     const disciplineByTerms =  await examRepository.getDisciplineByTerms(); 
-    
+    console.log("foi");
     const buildTestByDisciplines = disciplineByTerms.map((item) => {
         return{
             periodo: item.number,

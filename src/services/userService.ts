@@ -25,12 +25,11 @@ async function loginUser (userInfo: TypeUserLogin) {
     await validateSchemas(userSchema.userLoginSchema, userInfo); // Validating the stucture of the information send by the front.
     const user: any = await userRepository.getUserByEmail(userInfo.email); // Looking for the user by his email.
     
-    if(user === undefined) {
+    if(user === null) {
         throw {type: "not_found", message: "User do not exist!"}
     }
     
     const passwordDecrypted: string = decrypt(user.password); // Decypting the password got from the DB.
-    
     if(userInfo.password !== passwordDecrypted) { // Checking if the password from the DB is the same send by the front.
         throw {type: "unauthorized", message: "Incorrect password!"}
     }
