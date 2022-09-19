@@ -28,7 +28,7 @@ export async function autenticateMiddleware(
     
     const user = await userService.findUserById(tokenInfo.userId);
     res.locals.user = user;
-    console.log(user);
+    
     next();
   } catch {
     throw {type: "unauthorized", message: "Invalid Token!"};

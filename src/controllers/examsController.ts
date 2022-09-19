@@ -4,8 +4,18 @@ import { IExam } from '../types/examType';
 
 export async function addExameController (request: Request, response: Response) {
     const examsInfo: IExam = request.body;
-    
+
     await examsService.create(examsInfo);
+
+    response.status(201).send("Exam created sucessfully!");
+    
+
+}
+
+export async function getExamsByDiscipline (request: Request, response: Response) {
+    
+    
+    
 
     response.status(201).send("Exam created sucessfully!");
     
