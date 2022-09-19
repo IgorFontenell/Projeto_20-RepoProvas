@@ -16,7 +16,15 @@ export async function addExameController (request: Request, response: Response) 
 export async function getExamsByDiscipline (request: Request, response: Response) {
     
     const exams = await examsService.getByDiscipline();
+
+    response.status(200).send(exams);
     
+
+}
+
+export async function getExamsByTeachers (request: Request, response: Response) {
+    
+    const exams = await examsService.getByTeachers();
 
     response.status(200).send(exams);
     

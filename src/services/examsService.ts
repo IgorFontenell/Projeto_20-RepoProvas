@@ -81,8 +81,38 @@ async function getByDiscipline() {
 
 }
 
+async function getByTeachers () {
+    const examByTeachers = await examRepository.getExamsByTeachers();
+
+    const buildTestByTeacher = examByTeachers.map((item) =>{
+        return{
+            teacherName: item.name,
+            teacherId: item.id,
+            infos: item.teachersDisciplines[0].tests.map((infos)=>{
+                return{
+                    categoryName: infos.categories.name,
+                    infosTests: infos.categories.tests.map((tests)=>{
+                        if(tests.teacherDiscipline.teachers.name === item.name){
+                            return{
+                                testName: tests.name,
+                                disciplineName: tests.teacherDiscipline.disciplines.name,
+                                teacher: tests.teacherDiscipline.teachers.name
+                            }
+                        }
+                        
+                    }).filter((element)=> element)
+                }
+                
+            })
+        }
+    })
+    return buildTestByTeacher
+
+}
+
 
 export const examsService = {
     create,
-    getByDiscipline
+    getByDiscipline,
+    getByTeachers
 }

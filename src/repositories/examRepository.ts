@@ -81,6 +81,40 @@ async function getDisciplineByTerms () {
     })
 }
 
+async function getExamsByTeachers() {
+    return await client.teachers.findMany({
+        select: {
+            name: true,
+            id: true,
+            teachersDisciplines: { distinct: ['teacherId'],
+                select: {
+                    tests: { distinct: ['categoryId'],
+                        select: {
+                            categories: { 
+                                select: { 
+                                    id: true,
+                                    name: true,
+                                    tests: { 
+                                        select: {
+                                            name: true,
+                                            teacherDiscipline: {
+                                                select: {
+                                                    disciplines: {select: {name: true}},
+                                                teachers: {select: {name: true}}
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+                            
+                        }, orderBy: [{categories: {name: "desc"}}],
+                    }
+                }, orderBy: [{tests: {_count: 'desc'}}]
+            }
+        }
+    })
+}
 
 
 
@@ -91,5 +125,6 @@ export const examRepository = {
     lookForTeacherByName,
     lookForTeachersDisciplines,
     createExam,
-    getDisciplineByTerms
+    getDisciplineByTerms,
+    getExamsByTeachers
 }

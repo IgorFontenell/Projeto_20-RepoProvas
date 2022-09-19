@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addExameController, getExamsByDiscipline } from "../controllers/examsController";
+import { addExameController, getExamsByDiscipline, getExamsByTeachers } from "../controllers/examsController";
 import { autenticateMiddleware } from "../middlewares/authMiddleware";
 
 
@@ -7,7 +7,8 @@ import { autenticateMiddleware } from "../middlewares/authMiddleware";
 const examsRouter = Router();
 
 
-examsRouter.get("/exams", autenticateMiddleware, getExamsByDiscipline);
+examsRouter.get("/examsByTerms", autenticateMiddleware, getExamsByDiscipline);
+examsRouter.get("/examsByTeachers", autenticateMiddleware, getExamsByTeachers);
 examsRouter.post("/exams/add",autenticateMiddleware, addExameController);
 
 
