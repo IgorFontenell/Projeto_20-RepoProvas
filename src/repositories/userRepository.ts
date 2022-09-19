@@ -11,6 +11,7 @@ import { IUser, TypeUserLogin } from '../types/userTypes';
     })
 }
 
+
  async function getUserByEmail (email: string) {
     
     return await client.users.findFirst({

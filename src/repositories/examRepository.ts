@@ -1,4 +1,4 @@
-import { client, connection } from "../config/database";
+import { client } from "../config/database";
 import { TypeInsertExam } from '../types/examType';
 
 
