@@ -2,16 +2,16 @@
 A Typescript designed project to manage previous testes between students
 
 <p align="center">
-  <img  src="https://cdn.iconscout.com/icon/free/png-256/credit-card-2650080-2196542.png">
+  <img  src="https://thumbs.dreamstime.com/z/exame-dos-desenhos-animados-22162286.jpg" height="500px">
 </p>
 <h1 align="center">
-  Valex
+  RepoProvas
 </h1>
 <div align="center">
 
   <h3>Built With</h3>
 
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" height="30px"/>
+  <img src="https://img.shields.io/badge/Prisma-316192?style=for-the-badge&logo=prisma&logoColor=white" height="30px"/>
   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" height="30px"/>
   <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" height="30px"/>  
   <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express.js&logoColor=white" height="30px"/>
@@ -105,76 +105,42 @@ POST /exams/add
 | `discipline`     | `string` | **Required**. Name of the discipline |
 | `teacher`        | `string` | **Required**. Name of the teacher    |
 
+`pdfUrl: A link.`
+
+`categorie: Only the ones created previously in the DB(Projeto / Prática / Recuperação).`
+
+`discipline: Only the ones created previously in the DB (HTML e CSS / JavaScript / React / Humildade / Planejamento / Autoconfiança).`
+
+`teacher: Only the ones created previously in the DB and they have to teach the discipline (Diego Pinho / Bruna Hamori).`
 
 
 #
 
-### Block a card
+### Get exams by each term
 
 ```http
-POST /cards/block
+GET /examsByTerms
 ```
 
 #### Request:
 
-| Body             | Type     | Description                        |
-| :--------------- | :------- | :--------------------------------- |
-| `number`         | `string`| **Required**. number of the card    |
-| `password`       | `string` | **Required**. card password        |
+| Headers         | Type     | Description           |
+| :----------     | :------- | :-------------------- |
+| `Authorization` | `string` | **Required**. Token   |
 
 #
 
-### Unlock a card
+### Get exams by each teacher
 
 ```http
-POST /cards/unblock
+GET /examsByTeachers
 ```
 
 #### Request:
 
-| Body             | Type     | Description                        |
-| :--------------- | :------- | :--------------------------------- |
-| `number`         | `string`| **Required**. number of the card    |
-| `password`       | `string` | **Required**. card password        |
-
-#
-
-### Recharge a card
-
-```http
-POST /recharge
-```
-
-#### Request:
-
-| Headers     | Type     | Description           |
-| :---------- | :------- | :-------------------- |
-| `x-api-key` | `string` | **Required**. api key |
-
-####
-
-| Body             | Type      | Description                        |
-| :--------------- | :-------- | :--------------------------------- |
-| `number`         | `string` | **Required**. number of the card    |
-| `amount`         | `integer` | **Required**. recharge amount      |
-
-#
-
-### Card payments
-
-```http
-POST /buying
-```
-#### Request:
-
-| Body             | Type      | Description                        |
-| :--------------- | :-------- | :--------------------------------- |
-| `number`         | `string`  | **Required**. number of the card   |
-| `businessName`   | `string`  | **Required**. name of the business |
-| `password`       | `string`  | **Required**. card password        |
-| `amount`         | `integer` | **Required**. payment amount       |
-
-`By the DB rules, the businessName is a unique string`
+| Headers         | Type     | Description           |
+| :----------     | :------- | :-------------------- |
+| `Authorization` | `string` | **Required**. Token   |
 
 #
 
@@ -187,6 +153,10 @@ To run this project, you will need to add the following environment variables to
 
 `PORT = number #recommended:5000`
 
+`CRYPTR_SECRET= hashed word`
+
+`JWT_SECRET= unhashed word`
+
 
 </br>
 
@@ -195,13 +165,13 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone https://github.com/IgorFontenell/Projeto-18---Valex.git
+  git clone https://github.com/IgorFontenell/Projeto_20-RepoProvas
 ```
 
 Go to the project directory
 
 ```bash
-  cd projeto18-valex/
+  cd projeto_20-RepoProvas/
 ```
 
 Install dependencies
@@ -232,13 +202,15 @@ Start the server
 
 ## Lessons Learned
 
-In this project I learned a lot about how to structure an API with TypeScript as how to make a project following the Layered Architecture.
+In this project I trained the TypeScript way of coding with interfaces and Types, how to work with Prisma as ORM and trained the Layered Structure. I learned as well how to set an file of automatic tests for the API how to make a project following the Layered Architecture.
 
 </br>
 
 ## Acknowledgements
 
 -   [README Structure](https://github.com/andrezopo/projeto18-valex/blob/main/README.md)
+
+- [Prisma Structure](https://github.com/CaioVitor1)
 
 </br>
 
