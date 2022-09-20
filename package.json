@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "dotenv -e .env.test prisma migrate dev && prisma db seed && dotenv -e .env.test jest",
-    "test1": "dotenv -e .env.test jest",
+    "pre-test": "dotenv -e .env.test prisma migrate dev && prisma db seed",
+    "test": "dotenv -e .env.test jest -- -i",
     "start": "node dist/src/dist/index.js",
     "dev": "nodemon src/dist/index.ts",
     "build": "tsc && npx prisma generate && npx prisma migrate deploy"
