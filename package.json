@@ -8,7 +8,7 @@
     "test1": "dotenv -e .env.test jest",
     "start": "node dist/src/dist/index.js",
     "dev": "nodemon src/dist/index.ts",
-    "build": "tsc"
+    "build": "tsc && npx prisma generate && npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
